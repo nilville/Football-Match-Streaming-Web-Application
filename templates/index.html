@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="888.png">
+    <title>230</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000000;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1em;
+        }
+        
+        .matches-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .match-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        
+        .match-poster {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .match-info {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .match-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+        
+        .teams {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+        
+        .team {
+            text-align: center;
+            font-weight: 600;
+            color: #ffffff;
+        }
+        
+        .vs {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9em;
+        }
+        
+        .streams-count {
+            background: rgba(40, 167, 69, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(40, 167, 69, 0.3);
+            color: #28a745;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        
+        .watch-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .watch-btn:last-child {
+            margin-bottom: 0;
+        }
+        
+        .no-matches {
+            text-align: center;
+            color: white;
+            font-size: 1.5em;
+            padding: 50px;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+        }
+        
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 1.2em;
+            padding: 50px;
+        }
+        
+        .skeleton-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .skeleton-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        
+        .skeleton-poster {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s ease-in-out infinite;
+        }
+        
+        .skeleton-content {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .skeleton-title {
+            height: 24px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s ease-in-out infinite;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        
+        .skeleton-teams {
+            height: 60px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s ease-in-out infinite;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .skeleton-badge {
+            height: 28px;
+            width: 150px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s ease-in-out infinite;
+            border-radius: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .skeleton-button {
+            height: 44px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s ease-in-out infinite;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        
+        @keyframes skeleton-loading {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+        
+        .skeleton-hidden {
+            display: none;
+        }
+        
+        .h1 {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .h1 h1 {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(255, 105, 180, 0.2), rgba(255, 20, 147, 0.2));
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 105, 180, 0.3);
+            border-radius: 20px;
+            padding: 20px 40px;
+            color: #ffffff;
+            font-size: 2em;
+            font-weight: 700;
+            text-shadow: 0 0 20px rgba(255, 105, 180, 0.5), 2px 2px 4px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 8px 32px rgba(255, 105, 180, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="skeleton-loader" class="skeleton-container">
+            {% for i in range(6) %}
+            <div class="skeleton-card">
+                <div class="skeleton-poster"></div>
+                <div class="skeleton-content">
+                    <div class="skeleton-title"></div>
+                    <div class="skeleton-teams"></div>
+                    <div class="skeleton-badge"></div>
+                    <div class="skeleton-button"></div>
+                    <div class="skeleton-button"></div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="h1">
+            <h1>hey!, anonymous don't kill you'r self ❤️</h1>
+        </div>
+        
+        <div id="content-container" class="skeleton-hidden">
+        {% if matches %}
+        <div class="matches-grid">
+            {% for match in matches %}
+            <div class="match-card">
+                {% if match.poster %}
+                <img src="{{ match.poster }}" alt="{{ match.title }}" class="match-poster" onerror="this.style.display='none'">
+                {% endif %}
+                <div class="match-info">
+                    <h2 class="match-title">{{ match.title }}</h2>
+                    
+                    {% if match.teams %}
+                    <div class="teams">
+                        <div class="team">{{ match.teams.home.name if match.teams.home else 'Home' }}</div>
+                        <div class="vs">VS</div>
+                        <div class="team">{{ match.teams.away.name if match.teams.away else 'Away' }}</div>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="streams-count">
+                        {{ match.working_streams|length }} Working Stream{{ 's' if match.working_streams|length != 1 else '' }}
+                    </div>
+                    
+                    {% for stream in match.working_streams %}
+                    <a href="/watch/{{ stream.source }}/{{ stream.id }}" class="watch-btn" target="_blank">
+                        Watch Stream {{ loop.index }} ({{ stream.source }})
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-matches">
+            <p>No matches with working streams found at the moment.</p>
+            <p style="margin-top: 20px; font-size: 0.8em;">Please try again later.</p>
+        </div>
+        {% endif %}
+        </div>
+    </div>
+    
+    <script>
+        window.addEventListener('load', function() {
+            const skeleton = document.getElementById('skeleton-loader');
+            const content = document.getElementById('content-container');
+            
+            setTimeout(function() {
+                skeleton.classList.add('skeleton-hidden');
+                content.classList.remove('skeleton-hidden');
+            }, 300);
+        });
+    </script>
+</body>
+</html>
