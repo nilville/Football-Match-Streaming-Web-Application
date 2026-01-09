@@ -8,7 +8,6 @@ A Flask-based web application that fetches and displays live football matches wi
 - ✅ **Stream Validation**: Automatically checks and validates stream links before displaying
 - 🎨 **Modern UI**: Beautiful, responsive dark-themed interface with glassmorphism effects
 - 📱 **Responsive Design**: Works seamlessly on desktop and mobile devices
-- ⚡ **Fast Loading**: Skeleton loading screens for better user experience
 - 🔍 **Multiple Streams**: Shows all available working streams for each match
 
 ## Project Structure
