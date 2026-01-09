@@ -2,6 +2,12 @@
 
 A Flask-based web application that fetches and displays live football matches with working stream links. The app automatically checks stream availability and only shows matches with active, working streams.
 
+## Live Demo
+
+- 🔗 Live demo: [INIR Live — Football Streams](https://inir-live.vercel.app)  
+    Visit the demo to see the app in action with real-time stream validation and the responsive dark UI.
+- ⚠️ Note: streams are checked in real time; availability may change.
+
 ## Features
 
 - 🏈 **Live Football Matches**: Fetches popular football matches from the streamed.pk API
